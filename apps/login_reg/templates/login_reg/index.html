@@ -9,6 +9,15 @@
     <body>
         <div class="container">
             <h1 class="my-4">Welcome</h1>
+            <div class="row mb-3 justify-content-center">
+                    {% if messages %}
+                        <ul class="list-unstyled">
+                            {% for message in messages %}
+                            <li class="alert alert-danger" role="alert" >{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
             <div class="row">
                 <div class="col border border-dark rounded">
                     <h4 class="position-relative bg-white d-inline-block px-2" style="top:-18px">Register</h4>
@@ -72,15 +81,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="row">
-                {% if messages %}
-                    <ul class="list-unstyled">
-                        {% for message in messages %}
-                        <li class="alert alert-danger" role="alert" >{{ message }}</li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
             </div>
         </div>
     </body>

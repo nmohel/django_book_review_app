@@ -20,6 +20,7 @@ def login(request):
             for tag, error in errors.iteritems():
                 messages.error(request, error, extra_tags=tag)
         else:
+            request.session['user_id'] = User.objects.get(email=request.POST['email']).id
             return redirect('/books')
         
     return redirect('/')
