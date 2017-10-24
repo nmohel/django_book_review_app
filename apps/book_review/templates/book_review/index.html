@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Books Home</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <header class="row my-3 justify-content-between">
+                <h1>Welcome, {{current_user.name}}</h1>
+                <ul class="list-inline d-inline-block">
+                    <li class="list-inline-item"><a href="/books/add">Add a Book and Review</a></li>
+                    <li class="list-inline-item"><a href="/logout">Logout</a></li>
+                </ul>                
+            </header>
+            <div class="row">
+                <div class="col-7">
+                    <h4 class="my-2">Recent Book Reviews:</h4>
+                    <div class="list-group ml-3">
+                        {% for review in recent_reviews %}
+                            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <a href="/books/{{review.book.id}}" class="h5 mb-1">{{review.book.title}}</a>
+                                <div>
+                                    <span class="align-top">Rating: </span>
+                                    {% for num in five %}
+                                        {% if num <= review.rating %}
+                                            <span class="text-warning align-top"><i class="material-icons">star</i></span>
+                                        {% else %}
+                                            <span class="text-dark align-top"><i class="material-icons">star_border</i></span>                                        
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <p class="mb-1" style="overflow-wrap:break-word">
+                                    <a href="/users/{{review.writer.id}}">{{review.writer.alias}}</a> says: {{review.text}}
+                                </p>
+                                <small class="text-muted">Posted on {{review.created_at}}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-5">
+                    <h4 class="my-2">Other Books with Reviews:</h4>
+                    <div class="ml-3 border h-50 rounded" style="overflow:scroll">
+                        <ul class="list-unstyled p-3">
+                            {% for book in all_books %}
+                                <li><a href="/books/{{book.id}}">{{book.title}}</a></li>
+                            {% endfor %}
+                        </ul>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </body>
+</html>
