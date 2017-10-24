@@ -27,6 +27,13 @@ class Book(models.Model):
     
     objects = BookManager()
 
+class ReviewManager(models.Manager):
+    def validator(self, postData):
+        errors = {}
+        if len(postData['review_text']) < 1 :
+            errors['review_len'] = "Review cannot be blank"
+        return errors
+
 class Review(models.Model):
     text = models.TextField()
     rating = models.IntegerField(null=True)
@@ -34,3 +41,5 @@ class Review(models.Model):
     book = models.ForeignKey(Book, related_name="reviews")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    objects = ReviewManager()

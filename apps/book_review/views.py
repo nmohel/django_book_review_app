@@ -45,10 +45,28 @@ def create_book(request):
     return redirect('/books/add')
 
 def add_review(request):
-    return redirect('/books')
+    if request.method == 'POST':
+        book = Book.objects.get(id=request.POST['book'])
+        errors = Review.objects.validator(request.POST)
+        if len(errors):
+            for tag, error in errors.iteritems():
+                messages.error(request, error, extra_tags=tag)
+        else:
+            user = User.objects.get(id=request.session['user_id'])
+            Review.objects.create(text=request.POST['review_text'], rating=int(request.POST['rating']), writer=user, book=book)
+            book_url = '/books/' + str(book.id)
+        return redirect(book_url)
+    else:
+        return redirect('/books')
 
 def show(request, book_id):
-    context = {
-        'book': Book.objects.get(id=book_id)
-    }
-    return render(request, 'book_review/book_detail.html', context)
+    if 'user_id' in request.session:
+        book = Book.objects.get(id=book_id)
+        context = {
+            'book': book,
+            'all_reviews': book.reviews.all().order_by('-created_at'),
+            'five': [1,2,3,4,5]
+        }
+        return render(request, 'book_review/book_detail.html', context)
+    else:
+        return redirect('/')

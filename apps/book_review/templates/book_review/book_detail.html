@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <header class="row my-3 justify-content-between">
+                <div class="d-inline-block">
+                    <h2>{{book.title}}</h2>
+                    <small class="ml-3">by {{book.author}}</small>
+                </div>
+                    <ul class="list-inline d-inline-block">
+                        <li class="list-inline-item"><a href="/books/">Home</a></li>
+                        <li class="list-inline-item"><a href="/logout">Logout</a></li>
+                    </ul>                
+            </header>
+            <div class="row">
+                <div class="col-7">
+                    <h4 class="my-2">Reviews:</h4>
+                    <div class="list-group ml-3">
+                        {% for review in all_reviews %}
+                            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div>
+                                    <span class="align-top">Rating: </span>
+                                    {% for num in five %}
+                                        {% if num <= review.rating %}
+                                            <span class="text-warning align-top"><i class="material-icons">star</i></span>
+                                        {% else %}
+                                            <span class="text-dark align-top"><i class="material-icons">star_border</i></span>                                        
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                                <p class="mb-1" style="overflow-wrap:break-word">
+                                    <a href="/users/{{review.writer.id}}">{{review.writer.alias}}</a> says: {{review.text}}
+                                </p>
+                                <small class="text-muted">Posted on {{review.created_at}}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-5">
+                    <form action="/books/add_review" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="book" value="{{book.id}}">
+                        <div class="form-group">
+                            <label for="review_text" class="h4">Add a Review:</label>
+                            <textarea class="form-control" id="review_text" name="review_text" rows="3"></textarea>
+                        </div>
+                        <div class="form-row">
+                            <label for="rating" class="col-3">Rating:</label>
+                            <select class="form-control col-2" id="rating" name="rating">
+                                <option>1</option>
+                                <option>2</option>
+                                <option selected>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                            <span class="col ml-2">stars</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1 col-md-7"></div>
+                            <button type="submit" class="btn btn-primary col">Add Review</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    
+    </body>
+</html>
