@@ -9,9 +9,11 @@ def index(request):
 def show(request, user_id):
     user = User.objects.get(id=user_id)
     context = {
-        'user': user
+        'user': user,
+        'total_reviews': user.reviews.count(),
+        'books': User.objects.raw("SELECT DISTINCT book_review_book.id, book_review_book.title FROM login_reg_user JOIN book_review_review ON book_review_review.writer_id = login_reg_user.id JOIN book_review_book ON book_review_book.id = book_review_review.book_id WHERE login_reg_user.id = " + str(user_id))
     }
-    return render(request, 'login_reg/success.html', context)
+    return render(request, 'login_reg/user_detail.html', context)
 
 def login(request):
     if request.method == 'POST':

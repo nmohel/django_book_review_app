@@ -8,15 +8,29 @@
     </head>
     <body>
         <div class="container">
-            <div class="row justify-content-end">
-                <ul class="list-unstyled d-inline-block">
-                    <li><a href="/books">Home</a></li>
-                    <li><a href="/books/new">Add Book and Review</a></li>
-                    <li><a href="/logout">Logout</a></li>
+            <header class="row my-3 justify-content-end">
+                <ul class="list-inline d-inline-block">
+                    <li class="list-inline-item"><a href="/books/">Home</a></li>
+                    <li class="list-inline-item"><a href="/books/add">Add Book and Review</a></li>
+                    <li class="list-inline-item"><a href="/logout">Logout</a></li>
                 </ul>
-            </div>
+            </header>
             <div class="row">
-                <!-- TODO -->
+                <div>
+                    <h2>User Alias: {{user.alias}}</h2>
+                    <p>Name: {{user.name}}</p>
+                    <p>Email: {{user.email}}</p>
+                    <p>Total Reviews: {{total_reviews}}</p>
+                </div>
+            </div>
+            <div class="row my-4">
+                <h2>Posted Reviews on the following books:</h2>
+                <ul class="list-unstyled ml-3">
+                    {% for book in books %}
+                        <li><a href="/books/{{book.id}}">{{book.title}}</a></li>
+                    {% endfor %}
+                </ul>
+
             </div>
         </div>
     
