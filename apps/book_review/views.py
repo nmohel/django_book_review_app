@@ -18,7 +18,7 @@ def index(request):
 def new(request):
     if 'user_id' in request.session:
         context = {
-            'ids_authors_list': Book.objects.raw("SELECT DISTINCT book_review_book.id, book_review_book.author FROM book_review_book")
+            'ids_authors_list': Book.objects.values('author').distinct()
         }
         return render(request, 'book_review/new.html', context)
     else:
@@ -47,6 +47,7 @@ def create_book(request):
 def add_review(request):
     if request.method == 'POST':
         book = Book.objects.get(id=request.POST['book'])
+        book_url = '/books/' + str(book.id)
         errors = Review.objects.validator(request.POST)
         if len(errors):
             for tag, error in errors.iteritems():
@@ -54,7 +55,6 @@ def add_review(request):
         else:
             user = User.objects.get(id=request.session['user_id'])
             Review.objects.create(text=request.POST['review_text'], rating=int(request.POST['rating']), writer=user, book=book)
-            book_url = '/books/' + str(book.id)
         return redirect(book_url)
     else:
         return redirect('/books')

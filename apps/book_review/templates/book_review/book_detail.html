@@ -76,6 +76,13 @@
                             <button type="submit" class="btn btn-primary col">Add Review</button>
                         </div>
                     </form>
+                    {% if messages %}
+                        <ul class="list-unstyled mt-2">
+                        {% for message in messages %}
+                            <li class="alert alert-danger" role="alert">{{message}}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
                 </div>
             </div>
         </div>
