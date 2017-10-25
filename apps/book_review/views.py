@@ -31,7 +31,7 @@ def create_book(request):
             for tag, error in errors.iteritems():
                 messages.error(request, error, extra_tags=tag)
         else:
-            if request.POST['author_new'] > 1:
+            if len(request.POST['author_new']) > 1:
                 author = request.POST['author_new']
             else:
                 author = request.POST['author_list']
