@@ -23,16 +23,14 @@
                     <p>Total Reviews: {{total_reviews}}</p>
                 </div>
             </div>
-            <div class="row my-4">
-                <h2>Posted Reviews on the following books:</h2>
+            <h3 class="row my-4">Posted Reviews on the following books:</h3>
+            <div class="row">
                 <ul class="list-unstyled ml-3">
                     {% for book in books %}
                         <li><a href="/books/{{book.id}}">{{book.title}}</a></li>
                     {% endfor %}
                 </ul>
-
             </div>
         </div>
-    
     </body>
 </html>

@@ -7,4 +7,5 @@ urlpatterns = [
     url(r'^(?P<book_id>\d+)$', views.show),
     url(r'^create_book$', views.create_book),
     url(r'^add_review$', views.add_review),
+    url(r'^review/(?P<review_id>\d+)/delete$', views.delete_review),
 ]

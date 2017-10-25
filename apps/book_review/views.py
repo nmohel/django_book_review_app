@@ -70,3 +70,15 @@ def show(request, book_id):
         return render(request, 'book_review/book_detail.html', context)
     else:
         return redirect('/')
+
+def delete_review(request, review_id):
+    if request.method == 'POST':
+        url = request.POST['goback']
+        review = Review.objects.get(id=review_id)
+        if request.session['user_id'] == review.writer.id:
+            review.delete()
+        else:
+            print "Naughty hacker trying to delete someone elses reviews!!"
+        return redirect(url)
+    else:
+        return redirect('/books')

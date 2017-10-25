@@ -39,6 +39,15 @@
                                     <a href="/users/{{review.writer.id}}">{{review.writer.alias}}</a> says: {{review.text}}
                                 </p>
                                 <small class="text-muted">Posted on {{review.created_at}}</small>
+                                {% if review.writer.id == request.session.user_id %}
+                                <small class="mr-2">
+                                    <form action="/books/review/{{review.id}}/delete" method="post" class="form-inline d-inline-block">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="goback" value="/books/{{book.id}}">
+                                        <button type="submit" class="btn btn-link btn-sm">Delete Review</button>
+                                    </form>
+                                </small>
+                            {% endif %}
                             </div>
                         {% endfor %}
                     </div>
